@@ -1,53 +1,61 @@
-from pathlib import Path
+import uuid
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sentence_transformers import SentenceTransformer
+from qdrant_client.models import PointStruct
+
+from app.rag.rag import qdrant_client
 
 
-# -------------------------
-# 1. Read document
-# -------------------------
+COLLECTION_NAME = "devops_documents"
 
-file_path = Path("app/rag/sample.txt")
-
-text = file_path.read_text(encoding="utf-8")
-
-
-# -------------------------
-# 2. Split into chunks
-# -------------------------
+embedding_model = SentenceTransformer(
+    "all-MiniLM-L6-v2"
+)
 
 splitter = RecursiveCharacterTextSplitter(
     chunk_size=300,
     chunk_overlap=50
 )
 
-chunks = splitter.split_text(text)
 
+def ingest_document(
+    text: str,
+    source: str
+):
+    """
+    Split a document into chunks, create embeddings,
+    and store the chunks in Qdrant.
+    """
 
-# -------------------------
-# 3. Load embedding model
-# -------------------------
+    chunks = splitter.split_text(text)
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+    if not chunks:
+        return 0
 
+    embeddings = embedding_model.encode(chunks)
 
-# -------------------------
-# 4. Create embeddings
-# -------------------------
+    points = []
 
-embeddings = model.encode(chunks)
+    for i, (chunk, embedding) in enumerate(
+        zip(chunks, embeddings)
+    ):
 
+        point = PointStruct(
+            id=str(uuid.uuid4()),
+            vector=embedding.tolist(),
+            payload={
+                "text": chunk,
+                "source": source,
+                "chunk_id": i
+            }
+        )
 
-print(f"Total chunks: {len(chunks)}")
-print(f"Embedding dimensions: {len(embeddings[0])}")
+        points.append(point)
 
+    qdrant_client.upsert(
+        collection_name=COLLECTION_NAME,
+        points=points
+    )
 
-for i, chunk in enumerate(chunks):
-
-    print(f"\n--- Chunk {i + 1} ---")
-
-    print(chunk)
-
-    print("\nEmbedding:")
-    print(embeddings[i][:5])
+    return len(chunks)
