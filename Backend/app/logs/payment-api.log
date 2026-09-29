@@ -1,0 +1,14 @@
+2026-09-19 10:00:01 INFO Payment API started on port 8000
+2026-09-19 10:00:05 INFO Connected to PostgreSQL database
+2026-09-19 10:00:10 INFO Redis connection established
+2026-09-19 10:01:15 INFO POST /api/payment 200 180ms
+2026-09-19 10:01:20 INFO POST /api/payment 200 195ms
+2026-09-19 10:02:10 WARNING Database query took 850ms
+2026-09-19 10:02:11 ERROR Database connection timeout
+2026-09-19 10:02:12 ERROR Failed to process payment request
+2026-09-19 10:02:13 ERROR PostgreSQL connection pool exhausted
+2026-09-19 10:02:15 INFO POST /api/payment 500 1200ms
+2026-09-19 10:02:18 ERROR Database connection timeout
+2026-09-19 10:02:20 INFO POST /api/payment 500 1100ms
+2026-09-19 10:03:00 ERROR Failed to connect to PostgreSQL
+2026-09-19 10:03:05 INFO POST /api/payment 200 900ms

@@ -1,0 +1,12 @@
+{
+  "service": "payment-api",
+  "timestamp": "2026-09-19",
+  "metrics": {
+    "cpu_usage_percent": 72,
+    "memory_usage_percent": 81,
+    "request_count": 1250,
+    "error_count": 85,
+    "average_latency_ms": 850,
+    "p95_latency_ms": 1200
+  }
+}
