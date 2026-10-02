@@ -1,58 +1,70 @@
 from pathlib import Path
 
 
-LOG_FILE = Path("app/logs/payment-api.log")
+LOG_DIR = Path("app/logs")
 
 
 def log_tool(query: str) -> str:
     """
-    Analyze application logs and return relevant
-    errors, warnings, timeouts, and failures.
+    Dynamically search application logs for relevant
+    errors, warnings, timeouts, failures, and query terms.
     """
 
-    if not LOG_FILE.exists():
-        return "Log file not found."
+    if not LOG_DIR.exists():
+        return "Log directory not found."
 
-    logs = LOG_FILE.read_text(
-        encoding="utf-8"
-    )
+    log_files = list(LOG_DIR.glob("*.log"))
 
-    lines = logs.splitlines()
+    if not log_files:
+        return "No log files found."
 
-    # Keywords that indicate potential incidents
-    keywords = [
-        "ERROR",
-        "WARNING",
-        "timeout",
-        "Timeout",
-        "failed",
-        "Failed",
-        "exhausted",
-    ]
+    query_words = query.lower().split()
 
-    relevant_lines = []
+    results = []
 
-    for line in lines:
+    for log_file in log_files:
 
-        if any(
-            keyword in line
-            for keyword in keywords
-        ):
-            relevant_lines.append(line)
+        lines = log_file.read_text(
+            encoding="utf-8"
+        ).splitlines()
 
-    if not relevant_lines:
-        return "No relevant errors or warnings found in the logs."
+        for line in lines:
+            line_lower = line.lower()
 
-    result = "\n".join(relevant_lines)
+            # Always include important incident signals
+            important = any(
+                keyword in line_lower
+                for keyword in [
+                    "error",
+                    "warning",
+                    "timeout",
+                    "failed",
+                    "exhausted",
+                    "exception",
+                ]
+            )
 
-    return result
+            # Or include lines matching the user's query
+            matches_query = any(
+                word in line_lower
+                for word in query_words
+                if len(word) > 2
+            )
+
+            if important or matches_query:
+                results.append(
+                    f"[{log_file.name}] {line}"
+                )
+
+    if not results:
+        return "No relevant log entries found."
+
+    return "\n".join(results)
 
 
 if __name__ == "__main__":
-
-    result = log_tool(
-        "Why did the payment service fail?"
+    print(
+        log_tool(
+            "payment service database timeout"
+        )
     )
-
-    print("\nLog Analysis:")
-    print(result)
