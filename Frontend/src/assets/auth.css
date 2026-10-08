@@ -1,0 +1,293 @@
+/* Login page, sidebar, file chips - added for multi-user support */
+
+/* ---------- layout ---------- */
+.workspace {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.workspace > main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- navbar additions ---------- */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-user {
+  font-size: 14px;
+  color: #444444;
+}
+
+.navbar .logout-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.app.dark .navbar-user {
+  color: #cbd5e1;
+}
+
+/* ---------- login / register ---------- */
+.auth-page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 360px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px 24px;
+  border: 1px solid #d1d5db;
+  border-radius: 18px;
+  background-color: #ffffff;
+}
+
+.auth-card h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #1769aa;
+}
+
+.auth-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.auth-card input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #1f2937;
+  font-size: 15px;
+}
+
+.auth-submit {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: #1769aa;
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.auth-switch {
+  border: none;
+  background: none;
+  color: #1769aa;
+  font-size: 14px;
+}
+
+.auth-error {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: #fee2e2;
+  color: #991b1b;
+  font-size: 14px;
+}
+
+.app.dark .auth-card {
+  background-color: #202331;
+  border-color: #363a49;
+}
+
+.app.dark .auth-card input {
+  background-color: #171923;
+  border-color: #363a49;
+  color: #e5e7eb;
+}
+
+.app.dark .auth-card p {
+  color: #9ca3af;
+}
+
+/* ---------- sidebar ---------- */
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: calc(100vh - 62px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border-right: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.new-chat {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #1769aa;
+  font-weight: 600;
+}
+
+.conversation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.conversation-item {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.conversation-item:hover {
+  background-color: #eef2f7;
+}
+
+.conversation-item.active {
+  background-color: #dbeafe;
+}
+
+.conversation-title {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+  border: none;
+  background: none;
+  color: inherit;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conversation-delete {
+  padding: 4px 10px;
+  border: none;
+  background: none;
+  color: #9ca3af;
+  font-size: 18px;
+}
+
+.conversation-delete:hover {
+  color: #dc2626;
+}
+
+.app.dark .sidebar {
+  background-color: #1b1d29;
+  border-right-color: #363a49;
+}
+
+.app.dark .new-chat {
+  background-color: #202331;
+  border-color: #363a49;
+  color: #93c5fd;
+}
+
+.app.dark .conversation-item:hover {
+  background-color: #262a3a;
+}
+
+.app.dark .conversation-item.active {
+  background-color: #2b3a55;
+}
+
+/* ---------- uploaded files bar ---------- */
+.files-bar {
+  width: calc(100% - 32px);
+  max-width: 800px;
+  box-sizing: border-box;
+  margin: 12px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.files-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.files-label,
+.files-empty {
+  color: #6b7280;
+}
+
+.file-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px 3px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.file-chip button {
+  border: none;
+  background: none;
+  color: #9ca3af;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.file-chip button:hover {
+  color: #dc2626;
+}
+
+.app.dark .file-chip {
+  background-color: #202331;
+  border-color: #363a49;
+  color: #e5e7eb;
+}
+
+.tools-used {
+  align-self: flex-start;
+  margin-top: -4px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 700px) {
+  .workspace {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: auto;
+    position: static;
+    height: auto;
+    max-height: 180px;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .navbar-user {
+    display: none;
+  }
+}

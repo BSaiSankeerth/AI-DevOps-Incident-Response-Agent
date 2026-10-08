@@ -1,0 +1,468 @@
+
+/* =========================
+   Navbar
+========================= */
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar h1 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1769aa;
+  margin: 0 0 4px;
+}
+
+.navbar p {
+  font-size: 14px;
+  color: #444444;
+  margin: 0;
+}
+
+/* Navbar theme toggle */
+
+.navbar button {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #1769aa;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* =========================
+   Main Chat Layout
+========================= */
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* =========================
+   Welcome Screen
+========================= */
+
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.chat h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1769aa;
+  margin: 0 0 12px;
+}
+
+.chat p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* =========================
+   Conversation
+========================= */
+
+.conversation {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.message {
+  align-self: flex-end;
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 18px 18px 4px 18px;
+  background-color: #1769aa;
+  color: #ffffff;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.assistant-message {
+  align-self: flex-start;
+  max-width: 85%;
+  padding: 12px 16px;
+  border-radius: 18px 18px 18px 4px;
+  background-color: #f3f4f6;
+  color: #1f2937;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Attached file displayed in conversation */
+
+.message-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 75%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background-color: #f3f4f6;
+  color: #374151;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   Chat Input Container
+========================= */
+
+.chat-input {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: calc(100% - 32px);
+  max-width: 800px;
+  box-sizing: border-box;
+  margin: 0 auto 24px;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 18px;
+  background-color: #ffffff;
+}
+
+/* PDF preview ABOVE the input row */
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #f3f4f6;
+  color: #374151;
+  font-size: 14px;
+}
+
+.file-preview span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Remove file button */
+
+.file-preview button {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #1769aa;
+  cursor: pointer;
+}
+
+.file-preview button:hover {
+  background-color: #eff6ff;
+}
+
+/* + button, text input and Send button stay in one row */
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Text input */
+
+.input-row input[type="text"] {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #1f2937;
+  font-size: 16px;
+}
+
+.input-row input[type="text"]::placeholder {
+  color: #6b7280;
+}
+
+/* =========================
+   PDF Upload Button
+========================= */
+
+.upload-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  border-radius: 50%;
+  color: #1769aa;
+  font-size: 26px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.upload-button:hover {
+  background-color: #eff6ff;
+}
+
+/* =========================
+   Send Button
+========================= */
+
+.input-row > button {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  background-color: #1769aa;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.input-row > button:hover {
+  background-color: #12558b;
+}
+
+/* =========================
+   Application Theme
+========================= */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #1f2937;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.app.dark {
+  background-color: #171923;
+  color: #e5e7eb;
+}
+
+/* Dark navbar */
+
+.app.dark .navbar {
+  background-color: #202331;
+  border-bottom-color: #363a49;
+}
+
+.app.dark .navbar h1 {
+  color: #93c5fd;
+}
+
+.app.dark .navbar p {
+  color: #cbd5e1;
+}
+
+.app.dark .navbar button {
+  background-color: #202331;
+  border-color: #4b5563;
+  color: #93c5fd;
+}
+
+/* Dark welcome screen */
+
+.app.dark .chat h2 {
+  color: #93c5fd;
+}
+
+.app.dark .chat p {
+  color: #cbd5e1;
+}
+
+/* Dark conversation */
+
+.app.dark .message {
+  background-color: #2563a6;
+}
+
+.app.dark .assistant-message {
+  background-color: #30364a;
+  color: #e5e7eb;
+}
+
+.app.dark .message-file {
+  background-color: #30364a;
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+/* Dark input area */
+
+.app.dark .chat-input {
+  background-color: #202331;
+  border-color: #4b5563;
+}
+
+.app.dark .input-row input[type="text"] {
+  color: #f9fafb;
+}
+
+.app.dark .input-row input[type="text"]::placeholder {
+  color: #9ca3af;
+}
+
+/* Dark PDF preview */
+
+.app.dark .file-preview {
+  background-color: #30364a;
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+.app.dark .file-preview button {
+  background-color: #202331;
+  border-color: #4b5563;
+  color: #93c5fd;
+}
+
+.app.dark .file-preview button:hover {
+  background-color: #363d52;
+}
+
+/* Dark upload button */
+
+.app.dark .upload-button {
+  color: #93c5fd;
+  border-color: #4b5563;
+}
+
+.app.dark .upload-button:hover {
+  background-color: #30364a;
+}
+
+/* Dark Send button */
+
+.app.dark .input-row > button {
+  background-color: #2563a6;
+}
+
+.app.dark .input-row > button:hover {
+  background-color: #1d4f85;
+}
+
+
+.file-preview-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.file-preview {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.file-preview span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.message-file {
+    align-self: flex-end;
+}
+/* =========================
+   Responsive Design
+========================= */
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 10px 12px;
+  }
+
+  .chat {
+    padding: 20px 16px;
+  }
+
+  .chat h2 {
+    font-size: 24px;
+  }
+
+  .conversation {
+    padding: 16px;
+  }
+
+  .message {
+    max-width: 90%;
+  }
+
+  .message-file {
+    max-width: 90%;
+  }
+
+  .chat-input {
+    width: calc(100% - 24px);
+    margin-bottom: 12px;
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .input-row {
+    gap: 8px;
+  }
+
+  .input-row input[type="text"] {
+    padding: 8px 4px;
+    font-size: 14px;
+  }
+
+  .input-row > button {
+    padding: 10px 12px;
+  }
+
+  .upload-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .file-preview {
+    font-size: 12px;
+  }
+}

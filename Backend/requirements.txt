@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+pydantic
+groq
+langgraph
+langchain-text-splitters
+sentence-transformers
+qdrant-client
+pymupdf
+psycopg2-binary
+bcrypt
+pyjwt
