@@ -1,0 +1,15 @@
+streamlit>=1.30.0
+groq>=0.4.0
+langgraph>=0.0.15
+langchain-text-splitters
+sentence-transformers
+qdrant-client
+pymupdf
+python-dotenv
+pydantic
+psycopg2-binary
+fastapi
+uvicorn[standard]
+python-multipart
+bcrypt
+pyjwt

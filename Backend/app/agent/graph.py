@@ -51,7 +51,13 @@ from app.config import LLM_MODEL, MAX_TOOL_CHARS, MAX_TOOL_ROUNDS
 from app.tools.registry import TOOL_FUNCTIONS, TOOL_SCHEMAS
 
 load_dotenv()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+
+def get_groq_client() -> Groq:
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY is not configured in environment variables or .env file.")
+    return Groq(api_key=api_key)
 
 
 # ============================================================ SYSTEM PROMPT
@@ -253,6 +259,7 @@ def agent_node(state: AgentState) -> dict:
     last_error = None
     for _ in range(2):
         try:
+            client = get_groq_client()
             response = client.chat.completions.create(
                 model=LLM_MODEL,
                 messages=messages,

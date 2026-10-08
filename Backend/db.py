@@ -20,9 +20,15 @@ def _get_pool() -> ThreadedConnectionPool:
 
 @contextmanager
 def cursor():
-    """Yield a dict cursor; commit on success, roll back on error."""
-    pool = _get_pool()
-    conn = pool.getconn()
+    """Yield a dict cursor; commit on success, roll back on error. Gracefully no-ops if DB unavailable."""
+    try:
+        pool = _get_pool()
+        conn = pool.getconn()
+    except Exception as e:
+        # DB unavailable or DATABASE_URL not set — return dummy context
+        yield None
+        return
+
     try:
         with conn.cursor(cursor_factory=RealDictCursor) as cur:
             yield cur
@@ -32,6 +38,7 @@ def cursor():
         raise
     finally:
         pool.putconn(conn)
+
 
 
 def check_schema() -> None:

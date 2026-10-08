@@ -1,4 +1,4 @@
-"""Vector store access + retrieval. Every query is filtered by user_id."""
+import os
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
     Distance,
@@ -12,8 +12,25 @@ from sentence_transformers import SentenceTransformer
 
 from app.config import COLLECTION_NAME, EMBEDDING_MODEL, QDRANT_PATH
 
-qdrant_client = QdrantClient(path=str(QDRANT_PATH))
+_qdrant_client = None
 _embedding_model = None
+
+
+def get_qdrant_client() -> QdrantClient:
+    """Lazily initialize QdrantClient supporting QDRANT_URL, local disk, or memory fallback."""
+    global _qdrant_client
+    if _qdrant_client is None:
+        qdrant_url = os.getenv("QDRANT_URL")
+        qdrant_api_key = os.getenv("QDRANT_API_KEY")
+        if qdrant_url:
+            _qdrant_client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key)
+        else:
+            try:
+                QDRANT_PATH.mkdir(parents=True, exist_ok=True)
+                _qdrant_client = QdrantClient(path=str(QDRANT_PATH))
+            except Exception:
+                _qdrant_client = QdrantClient(":memory:")
+    return _qdrant_client
 
 
 def get_embedding_model() -> SentenceTransformer:
@@ -26,8 +43,9 @@ def get_embedding_model() -> SentenceTransformer:
 
 def ensure_collection() -> None:
     """Create the collection if it does not exist (fresh clones work)."""
-    if not qdrant_client.collection_exists(COLLECTION_NAME):
-        qdrant_client.create_collection(
+    client = get_qdrant_client()
+    if not client.collection_exists(COLLECTION_NAME):
+        client.create_collection(
             collection_name=COLLECTION_NAME,
             vectors_config=VectorParams(
                 size=get_embedding_model().get_sentence_embedding_dimension(),
@@ -48,12 +66,13 @@ def search_documents(query: str, user_id: str, top_k: int = 5) -> list[dict]:
     if not user_id:
         return []
     ensure_collection()
+    client = get_qdrant_client()
     flt = _filter(user_id)
-    if qdrant_client.count(COLLECTION_NAME, count_filter=flt, exact=True).count == 0:
+    if client.count(COLLECTION_NAME, count_filter=flt, exact=True).count == 0:
         return []
 
     vector = get_embedding_model().encode(query).tolist()
-    result = qdrant_client.query_points(
+    result = client.query_points(
         collection_name=COLLECTION_NAME,
         query=vector,
         query_filter=flt,
@@ -74,9 +93,10 @@ def search_documents(query: str, user_id: str, top_k: int = 5) -> list[dict]:
 def list_sources(user_id: str) -> list[str]:
     """Names of this user's indexed documents."""
     ensure_collection()
+    client = get_qdrant_client()
     sources, offset = set(), None
     while True:
-        points, offset = qdrant_client.scroll(
+        points, offset = client.scroll(
             COLLECTION_NAME, scroll_filter=_filter(user_id), limit=256, offset=offset,
             with_payload=["source"], with_vectors=False,
         )
@@ -88,7 +108,9 @@ def list_sources(user_id: str) -> list[str]:
 
 def delete_source(user_id: str, source: str) -> None:
     ensure_collection()
-    qdrant_client.delete(
+    client = get_qdrant_client()
+    client.delete(
         COLLECTION_NAME,
         points_selector=FilterSelector(filter=_filter(user_id, source)),
     )
+
