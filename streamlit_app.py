@@ -31,18 +31,19 @@ st.set_page_config(
 # Custom CSS for polished UI (locks theme identically across localhost & cloud)
 st.markdown("""
 <style>
-    /* Hide default Streamlit header and footer for consistent rendering */
+    /* Hide default Streamlit header and footer */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
     .stAppHeader {display: none;}
     
-    .stApp {
-        max-width: 1250px;
-        margin: 0 auto;
-        background-color: #0e1117 !important;
-        color: #fafafa !important;
+    /* Sleek container styling */
+    .block-container {
+        padding-top: 2rem !important;
+        padding-bottom: 3rem !important;
+        max-width: 1200px;
     }
+    
     .main-title {
         font-size: 2.2rem;
         font-weight: 700;
@@ -76,7 +77,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-
 # ------------------------------------------------------------------ SESSION STATE
 if "user_id" not in st.session_state:
     st.session_state.user_id = str(uuid.uuid4())
@@ -95,8 +95,12 @@ if "uploaded_files" not in st.session_state:
 with st.sidebar:
     st.title("⚙️ Control Panel")
     
-    # 1. Groq API Key Config
+    # 1. Groq API Key Config (Checks env vars and Streamlit Cloud Secrets)
     env_key = os.getenv("GROQ_API_KEY", "")
+    if not env_key and "GROQ_API_KEY" in st.secrets:
+        env_key = st.secrets["GROQ_API_KEY"]
+        os.environ["GROQ_API_KEY"] = env_key
+
     if not env_key:
         api_key_input = st.text_input(
             "GROQ API Key",
@@ -107,7 +111,7 @@ with st.sidebar:
             os.environ["GROQ_API_KEY"] = api_key_input
             st.success("API Key saved for current session!")
     else:
-        st.success("✅ GROQ_API_KEY loaded from environment")
+        st.success("✅ GROQ_API_KEY active")
 
     st.divider()
 
