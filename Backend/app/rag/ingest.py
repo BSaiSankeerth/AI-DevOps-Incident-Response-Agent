@@ -4,7 +4,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from qdrant_client.models import PointStruct
 
 from app.config import COLLECTION_NAME
-from app.rag.rag import delete_source, ensure_collection, get_embedding_model, qdrant_client
+from app.rag.rag import delete_source, ensure_collection, get_embedding_model, get_qdrant_client
 
 splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=150)
 
@@ -41,5 +41,6 @@ def ingest_pages(pages: list[tuple[int, str]], source: str, user_id: str) -> int
         )
         for i, (chunk, page, emb) in enumerate(zip(chunks, meta, embeddings))
     ]
-    qdrant_client.upsert(collection_name=COLLECTION_NAME, points=points)
+    get_qdrant_client().upsert(collection_name=COLLECTION_NAME, points=points)
     return len(points)
+
