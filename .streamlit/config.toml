@@ -1,4 +1,5 @@
 [theme]
+base = "dark"
 primaryColor = "#ff4b4b"
 backgroundColor = "#0e1117"
 secondaryBackgroundColor = "#161b22"
@@ -10,3 +11,7 @@ headless = true
 enableCORS = false
 enableXsrfProtection = true
 maxUploadSize = 25
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = true
