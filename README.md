@@ -143,13 +143,3 @@ Start a new conversation from the sidebar for each separate incident. Runbooks a
 | Agent replies fail or time out | Check that `GROQ_API_KEY` is valid and you haven't hit your Groq rate limit. |
 | Frontend can't reach the API | Make sure `uvicorn` is running and the frontend's API base URL points at it. |
 | Uploaded `.txt` handled as docs instead of logs | Rename it to `.log` so it is routed to the log tool. |
-
-## Security notes
-
-- Never commit your `.env` file. Only `.env.example` belongs in the repository.
-- Use a long, random `JWT_SECRET` outside local development.
-- Uploaded logs can contain sensitive data. Review them before sharing a deployment with others.
-
-## License
-
-Add your license here (for example MIT) and include a `LICENSE` file in the repository.
